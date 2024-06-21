@@ -35,7 +35,6 @@ export default component$<BookingItemProps>(
           margin: "15px",
           padding: "5px",
         }}
-        key={id}
       >
         <div
           style={{
