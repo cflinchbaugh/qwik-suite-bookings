@@ -1,5 +1,7 @@
 import { Resource, component$, useResource$ } from "@builder.io/qwik";
-import { Booking, fetchBookings } from "~/services/bookingsService";
+import type { Booking } from "~/services/bookingsService";
+import { fetchBookings } from "~/services/bookingsService";
+import BookingItem from "~/components/booking/BookingItem";
 
 const convertCurrency = ({
   currencyCode,
@@ -27,39 +29,7 @@ export default component$(() => {
         onPending={() => <div>Loading...</div>}
         onRejected={() => <div>Error</div>}
         onResolved={(data: Booking[]) =>
-          data.map((booking) => (
-            <div
-              style={{
-                border: "solid 1px",
-                borderRadius: "5px",
-                margin: "15px",
-                padding: "5px",
-              }}
-              key={booking.id}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "5px",
-                }}
-              >
-                {booking.hotelName}
-
-                <div>
-                  {booking.checkInDate} - {booking.checkOutDate}
-                </div>
-
-                <div>
-                  Total:{" "}
-                  {convertCurrency({
-                    currencyCode: booking.currencyCode,
-                    total: booking.total,
-                  })}
-                </div>
-              </div>
-            </div>
-          ))
+          data.map((booking) => <BookingItem {...booking} />)
         }
       />
     </>

@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
+import type { dateYYYYMMDD } from "~/utils/dates";
 
 dotenv.config();
 
 const API_URL = "https://traverse-assignment-api.esdee.workers.dev";
 const API_KEY = process.env.VITE_API_KEY as string;
 
-type dateYYYYMMDD = string;
 type currencyCode = "USD"; // Ultimately this should include all the supported currencies in the system, I only saw USD
 type bookingId = number; // Normally I declare number in the type object, but in this case I am prepping in case we want to swap number with UUID
 
