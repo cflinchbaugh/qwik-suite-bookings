@@ -5,8 +5,10 @@ import {
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
-
+import dotenv from "dotenv";
 import "./global.css";
+
+dotenv.config();
 
 export default component$(() => {
   /**
