@@ -28,21 +28,8 @@ export default component$<BookingItemProps>(
     total,
   }) => {
     return (
-      <div
-        style={{
-          border: "solid 1px",
-          borderRadius: "5px",
-          margin: "15px",
-          padding: "5px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-          }}
-        >
+      <div class="border rounded m-4 p-2">
+        <div>
           {hotelName}
 
           <div>Check-in: {checkInDate}</div>

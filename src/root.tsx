@@ -7,6 +7,7 @@ import {
 import { RouterHead } from "./components/router-head/router-head";
 import dotenv from "dotenv";
 import "./global.css";
+import "./styles/tailwind.css";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ export default component$(() => {
         <RouterHead />
         <ServiceWorkerRegister />
       </head>
+
       <body lang="en">
         <RouterOutlet />
       </body>

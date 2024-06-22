@@ -21,17 +21,7 @@ export default component$<BookingDetailsItemProps>(
     total,
   }) => {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          border: "solid 1px",
-          borderRadius: "5px",
-          gap: "8px",
-          margin: "15px",
-          padding: "5px",
-        }}
-      >
+      <div class="flex flex-col border rounded gap-2 m-4 p-2">
         <div>
           Booked by: {customer.lastName}, {customer.firstName} ({customer.email}
           )
@@ -59,14 +49,7 @@ export default component$<BookingDetailsItemProps>(
         <div>
           Additional Customer Bookings
           {customer.bookingIds.length ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: "10px",
-              }}
-            >
+            <div class="flex flex-wrap gap-3">
               {customer.bookingIds.map((id) => (
                 <Link key={id} href={`/bookings/${id}`}>
                   {id}
