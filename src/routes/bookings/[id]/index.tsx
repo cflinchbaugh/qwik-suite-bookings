@@ -26,7 +26,10 @@ export default component$(() => {
             <LoadingSpinner />
           </div>
         )}
-        onRejected={(error) => <div>Error: Booking Not Found</div>}
+        onRejected={(error) => {
+          console.error(error);
+          return <div>Error: Booking Not Found</div>;
+        }}
         onResolved={(booking) => <BookingDetailsItem {...booking} />}
       />
     </div>
