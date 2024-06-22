@@ -1,10 +1,7 @@
-import dotenv from "dotenv";
 import type { dateYYYYMMDD, dateYYYYMMDDtime } from "~/utils/dates";
 
-dotenv.config();
-
 const API_URL = "https://traverse-assignment-api.esdee.workers.dev";
-const API_KEY = process.env.VITE_API_KEY!;
+const API_KEY = import.meta.env.PUBLIC_API_KEY!;
 
 type currencyCode = "USD"; // Ultimately this should include all the supported currencies in the system, I only saw USD
 type bookingId = number; // Normally I declare number in the type object, but in this case I am prepping in case we want to swap number with UUID
@@ -41,7 +38,7 @@ export type Room = {
 };
 
 export type BookingDetails = {
-  cancelledAt: null;
+  cancelledAt: null | dateYYYYMMDDtime;
   checkInDate: dateYYYYMMDD;
   createdAt: dateYYYYMMDDtime;
   checkOutDate: dateYYYYMMDD;
@@ -50,8 +47,8 @@ export type BookingDetails = {
   hotel: Hotel;
   id: id;
   occupancy: number;
-  notes: null;
-  paidInFullAt: dateYYYYMMDDtime;
+  notes: null | string;
+  paidInFullAt: null | dateYYYYMMDDtime;
   room: Room;
   total: number;
   updatedAt: dateYYYYMMDDtime;
@@ -98,22 +95,22 @@ const isRoom = (room: any): room is Room =>
 
 function isBookingDetails(data: any): data is BookingDetails {
   return (
-    (typeof data === "object" && data !== null && data.cancelledAt === null) ||
-    (data.cancelledAt === "string" &&
-      typeof data.checkInDate === "string" &&
-      typeof data.createdAt === "string" &&
-      typeof data.checkOutDate === "string" &&
-      data.currencyCode === "USD" && // Extend this check if more currencies are supported
-      isCustomer(data.customer) &&
-      isHotel(data.hotel) &&
-      typeof data.id === "number" &&
-      typeof data.occupancy === "number" &&
-      data.notes === null &&
-      typeof data.paidInFullAt === null) ||
-    (typeof data.paidInFullAt === "string" &&
-      isRoom(data.room) &&
-      typeof data.total === "number" &&
-      typeof data.updatedAt === "string")
+    data !== null &&
+    typeof data === "object" &&
+    (typeof data.cancelledAt === "string" || data.cancelledAt === null) &&
+    typeof data.checkInDate === "string" &&
+    typeof data.createdAt === "string" &&
+    typeof data.checkOutDate === "string" &&
+    data.currencyCode === "USD" && // Extend this check if more currencies are supported
+    isCustomer(data.customer) &&
+    isHotel(data.hotel) &&
+    typeof data.id === "number" &&
+    typeof data.occupancy === "number" &&
+    (typeof data.notes === "string" || data.notes === null) &&
+    (typeof data.paidInFullAt === "string" || data.paidInFullAt === null) &&
+    isRoom(data.room) &&
+    typeof data.total === "number" &&
+    typeof data.updatedAt === "string"
   );
 }
 

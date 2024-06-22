@@ -1,4 +1,4 @@
-import { component$, useSignal, $ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
 import type { Booking } from "~/services/bookingsService";
 import { convertCurrency } from "~/utils/currency";
@@ -45,11 +45,10 @@ export default component$<BookingItemProps>(
         >
           {hotelName}
 
+          <div>Check-in: {checkInDate}</div>
+          <div>Check-out: {checkOutDate}</div>
           <div>
-            {checkInDate} - {checkOutDate}
-          </div>
-
-          <div>
+            Total Nights:
             {calculateNights({
               checkInDate,
               checkOutDate,

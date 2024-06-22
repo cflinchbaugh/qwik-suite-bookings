@@ -1,5 +1,6 @@
 import { component$, useResource$, Resource } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
+import BookingDetailsItem from "~/components/booking/BookingDetailsItem";
 import type { BookingDetails } from "~/services/bookingsService";
 import { fetchBookingById } from "~/services/bookingsService";
 
@@ -21,15 +22,7 @@ export default component$(() => {
         value={bookingsData}
         onPending={() => <div>Loading...</div>}
         onRejected={(error) => <div>Error: {error.message}</div>}
-        onResolved={(booking) => (
-          <div>
-            <p>Hotel Name: {booking.hotel.name}</p>
-            <p>Check-in Date: {booking.checkInDate}</p>
-            <p>Check-out Date: {booking.checkOutDate}</p>
-            <p>Total: {booking.total}</p>
-            <p>Currency: {booking.currencyCode}</p>
-          </div>
-        )}
+        onResolved={(booking) => <BookingDetailsItem {...booking} />}
       />
     </div>
   );
