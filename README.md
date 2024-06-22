@@ -1,3 +1,8 @@
+# Developer Setup Notes
+
+- This project requires a `PUBLIC_API_KEY` in the `.env` file; please reach out to a teammember for further instructions
+- TODO: Populate with full setup instructions
+
 # Qwik City App ⚡️
 
 - [Qwik Docs](https://qwik.dev/)

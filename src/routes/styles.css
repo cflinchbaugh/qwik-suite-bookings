@@ -72,6 +72,10 @@ a {
   color: var(--qwik-light-blue);
 }
 
+a:hover {
+  color: var(--qwik-light-purple);
+}
+
 code {
   background: rgba(230, 230, 230, 0.3);
   border-radius: 4px;
@@ -98,9 +102,9 @@ ul {
 .container.container-center {
   text-align: center;
 }
-.container.container-flex {
-  /* does nothing on mobile */
-}
+/* .container.container-flex {
+  does nothing on mobile
+} */
 .container.container-spacing-xl {
   padding: 50px 40px;
 }
