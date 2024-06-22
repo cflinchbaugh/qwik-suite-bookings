@@ -18,7 +18,7 @@ export default component$(() => {
           )}
           onRejected={() => <div>Error</div>}
           onResolved={(data: Booking[]) => (
-            <div class="grid gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid gap-2 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
               {data.map((booking) => (
                 <BookingItem key={booking.id} {...booking} />
               ))}

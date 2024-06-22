@@ -7,7 +7,7 @@ type ItemInfoProps = {
 
 export default component$<ItemInfoProps>(({ label, value }) => {
   return (
-    <div class="flex gap-1">
+    <div class="flex gap-1 flex-wrap">
       <div class="font-bold">{label}:</div>
       <div>{value}</div>
     </div>
