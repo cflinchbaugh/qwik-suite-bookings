@@ -29,7 +29,7 @@ export default component$<BookingItemProps>(
     total,
   }) => {
     return (
-      <div class="flex flex-col border rounded m-4 p-4 bg-[#2a313f] hover:bg-[#323b4d]">
+      <div class="flex flex-col border rounded p-4 bg-[#161a26] hover:bg-[#101420]">
         <div class="text-lg font-bold pb-3">{hotelName}</div>
 
         <div class="flex gap-8">
@@ -57,10 +57,12 @@ export default component$<BookingItemProps>(
             <div class="flex row gap-2">
               <ItemInfo
                 label="Status"
-                value={paid ? "Paid" : cancelled ? "Cancelled" : "Unpaid"}
+                value={
+                  paid ? "Paid" : cancelled ? "Cancelled" : "Payment Required"
+                }
               />
               <div
-                class={`rounded-full w-fit px-2 ${paid ? "bg-green-600" : cancelled ? "bg-yellow-500" : "bg-red-500"}`}
+                class={`rounded-full w-fit h-fit px-2 ${paid ? "bg-green-600" : cancelled ? "bg-yellow-500" : "bg-red-500"}`}
               >
                 {paid ? "✓" : cancelled ? "!!" : "X"}
               </div>

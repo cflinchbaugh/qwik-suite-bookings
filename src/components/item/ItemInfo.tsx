@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 
 type ItemInfoProps = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 export default component$<ItemInfoProps>(({ label, value }) => {

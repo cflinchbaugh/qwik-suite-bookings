@@ -14,8 +14,8 @@ export default component$(() => {
   });
 
   return (
-    <div>
-      <Link href={`/bookings/`}>View All Bookings</Link>
+    <div class="p-8">
+      <Link href={`/bookings/`}>← View All Bookings</Link>
 
       <h1>Booking Detail</h1>
       <Resource
