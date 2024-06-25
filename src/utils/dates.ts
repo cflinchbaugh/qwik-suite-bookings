@@ -1,12 +1,12 @@
-export type dateYYYYMMDD = string;
-export type dateYYYYMMDDtime = string; //ex: '2024-06-01T00:00:00.000Z'
+export type DateYYYYMMDD = string;
+export type DateYYYYMMDDTime = string; //ex: '2024-06-01T00:00:00.000Z'
 
 export function calculateNights({
   checkInDate,
   checkOutDate,
 }: {
-  checkInDate: dateYYYYMMDD;
-  checkOutDate: dateYYYYMMDD;
+  checkInDate: DateYYYYMMDD;
+  checkOutDate: DateYYYYMMDD;
 }) {
   const startDate = new Date(checkInDate);
   const endDate = new Date(checkOutDate);

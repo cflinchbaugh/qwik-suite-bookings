@@ -1,4 +1,4 @@
-import type { dateYYYYMMDD, dateYYYYMMDDtime } from "~/utils/dates";
+import type { DateYYYYMMDD, DateYYYYMMDDTime } from "~/utils/dates";
 
 const API_KEY = import.meta.env.PUBLIC_API_KEY!;
 const API_URL = import.meta.env.PUBLIC_API_URL!;
@@ -8,8 +8,8 @@ type bookingId = number; // Normally I declare number in the type object, but in
 
 export type Booking = {
   cancelled: boolean;
-  checkInDate: dateYYYYMMDD;
-  checkOutDate: dateYYYYMMDD;
+  checkInDate: DateYYYYMMDD;
+  checkOutDate: DateYYYYMMDD;
   currencyCode: currencyCode;
   hotelName: string;
   id: bookingId;
@@ -38,20 +38,20 @@ export type Room = {
 };
 
 export type BookingDetails = {
-  cancelledAt: null | dateYYYYMMDDtime;
-  checkInDate: dateYYYYMMDD;
-  createdAt: dateYYYYMMDDtime;
-  checkOutDate: dateYYYYMMDD;
+  cancelledAt: null | DateYYYYMMDDTime;
+  checkInDate: DateYYYYMMDD;
+  createdAt: DateYYYYMMDDTime;
+  checkOutDate: DateYYYYMMDD;
   currencyCode: currencyCode;
   customer: Customer;
   hotel: Hotel;
   id: id;
   occupancy: number;
   notes: null | string;
-  paidInFullAt: null | dateYYYYMMDDtime;
+  paidInFullAt: null | DateYYYYMMDDTime;
   room: Room;
   total: number;
-  updatedAt: dateYYYYMMDDtime;
+  updatedAt: DateYYYYMMDDTime;
 };
 
 function isBookingArray(data: any[]): data is Booking[] {
