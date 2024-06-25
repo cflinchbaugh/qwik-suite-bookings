@@ -28,7 +28,11 @@ export default component$<BookingDetailsItemProps>(
 
     const handleCancelBooking = $(async () => {
       await cancelBooking(id, notesEdited.value ?? "");
-      cancelledAt.value = Date.now().toString();
+
+      const now = new Date();
+      const isoDateString = now.toISOString();
+      cancelledAt.value = isoDateString;
+
       showCancelConfirmation.value = false;
     });
 
@@ -85,7 +89,7 @@ export default component$<BookingDetailsItemProps>(
                   bind:value={notesEdited}
                   class="w-full text-red-900 p-2"
                   type="textarea"
-                  placeholder="Reason for cancellation"
+                  placeholder="Reason for cancellation*"
                   value={notesEdited.value}
                 />
 
@@ -94,7 +98,12 @@ export default component$<BookingDetailsItemProps>(
                 </button>
 
                 <button
-                  class="bg-red-500 hover:bg-red-800"
+                  class={
+                    notesEdited.value?.length
+                      ? "bg-red-500 hover:bg-red-800"
+                      : "bg-slate-500 cursor-not-allowed"
+                  }
+                  disabled={!notesEdited.value?.length}
                   onClick$={handleCancelBooking}
                 >
                   Confirm Cancellation
