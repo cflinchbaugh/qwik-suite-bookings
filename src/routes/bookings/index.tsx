@@ -1,11 +1,16 @@
-import { Resource, component$, useResource$ } from "@builder.io/qwik";
+import { Resource, component$ } from "@builder.io/qwik";
 import type { Booking } from "~/services/bookingsService";
 import { fetchBookings } from "~/services/bookingsService";
 import BookingItem from "~/components/booking/BookingItem";
 import LoadingSpinner from "~/components/loaders/LoadingSpinner";
+import { routeLoader$ } from "@builder.io/qwik-city";
+
+export const useBookingsLoader = routeLoader$(async () => {
+  return fetchBookings();
+});
 
 export default component$(() => {
-  const bookingsData = useResource$(fetchBookings);
+  const bookingsData = useBookingsLoader();
 
   return (
     <div class="p-8">

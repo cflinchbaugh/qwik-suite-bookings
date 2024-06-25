@@ -1,18 +1,17 @@
-import { component$, useResource$, Resource } from "@builder.io/qwik";
-import { Link, useLocation } from "@builder.io/qwik-city";
+import { component$, Resource } from "@builder.io/qwik";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import BookingDetailsItem from "~/components/booking/BookingDetailsItem";
 import LoadingSpinner from "~/components/loaders/LoadingSpinner";
-import type { BookingDetails } from "~/services/bookingsService";
 import { fetchBookingById } from "~/services/bookingsService";
 
-export default component$(() => {
-  const location = useLocation();
-  const { id } = location.params;
+export const useBookingDetailsLoader = routeLoader$(async (requestEvent) => {
+  const { params } = requestEvent;
+  const { id } = params;
+  return fetchBookingById(id);
+});
 
-  const bookingsData = useResource$<BookingDetails>(async ({ track }) => {
-    track(() => id);
-    return fetchBookingById(id);
-  });
+export default component$(() => {
+  const bookingsData = useBookingDetailsLoader();
 
   return (
     <div class="p-8">

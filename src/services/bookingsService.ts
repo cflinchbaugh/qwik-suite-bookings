@@ -1,15 +1,15 @@
-import type { dateYYYYMMDD, dateYYYYMMDDtime } from "~/utils/dates";
+import type { DateYYYYMMDD, DateYYYYMMDDTime } from "~/utils/dates";
 
-const API_URL = "https://traverse-assignment-api.esdee.workers.dev";
 const API_KEY = import.meta.env.PUBLIC_API_KEY!;
+const API_URL = import.meta.env.PUBLIC_API_URL!;
 
 type currencyCode = "USD"; // Ultimately this should include all the supported currencies in the system, I only saw USD
 type bookingId = number; // Normally I declare number in the type object, but in this case I am prepping in case we want to swap number with UUID
 
 export type Booking = {
   cancelled: boolean;
-  checkInDate: dateYYYYMMDD;
-  checkOutDate: dateYYYYMMDD;
+  checkInDate: DateYYYYMMDD;
+  checkOutDate: DateYYYYMMDD;
   currencyCode: currencyCode;
   hotelName: string;
   id: bookingId;
@@ -38,23 +38,23 @@ export type Room = {
 };
 
 export type BookingDetails = {
-  cancelledAt: null | dateYYYYMMDDtime;
-  checkInDate: dateYYYYMMDD;
-  createdAt: dateYYYYMMDDtime;
-  checkOutDate: dateYYYYMMDD;
+  cancelledAt: null | DateYYYYMMDDTime;
+  checkInDate: DateYYYYMMDD;
+  createdAt: DateYYYYMMDDTime;
+  checkOutDate: DateYYYYMMDD;
   currencyCode: currencyCode;
   customer: Customer;
   hotel: Hotel;
   id: id;
   occupancy: number;
   notes: null | string;
-  paidInFullAt: null | dateYYYYMMDDtime;
+  paidInFullAt: null | DateYYYYMMDDTime;
   room: Room;
   total: number;
-  updatedAt: dateYYYYMMDDtime;
+  updatedAt: DateYYYYMMDDTime;
 };
 
-function isBookingArray(data: any[]): data is Booking[] {
+const isBookingArray = (data: any[]): data is Booking[] => {
   return (
     Array.isArray(data) &&
     data.every(
@@ -70,7 +70,7 @@ function isBookingArray(data: any[]): data is Booking[] {
         typeof item.total === "number"
     )
   );
-}
+};
 
 const isCustomer = (customer: any): customer is Customer =>
   typeof customer === "object" &&
@@ -93,7 +93,7 @@ const isRoom = (room: any): room is Room =>
   typeof room.maxOccupancy === "number" &&
   typeof room.name === "string";
 
-function isBookingDetails(data: any): data is BookingDetails {
+const isBookingDetails = (data: any): data is BookingDetails => {
   return (
     data !== null &&
     typeof data === "object" &&
@@ -112,11 +112,11 @@ function isBookingDetails(data: any): data is BookingDetails {
     typeof data.total === "number" &&
     typeof data.updatedAt === "string"
   );
-}
+};
 
 async function parseResponse(response: Response): Promise<any> {
   if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
+    console.error(`Error: ${response.statusText}`);
   }
   return response.json();
 }
@@ -132,7 +132,7 @@ export async function fetchBookings(): Promise<Booking[]> {
   const data = await parseResponse(response);
 
   if (!isBookingArray(data)) {
-    throw new Error("Invalid data format received from API");
+    console.error("Invalid data format received from API");
   }
   return data;
 }
@@ -148,7 +148,7 @@ export async function fetchBookingById(id: string): Promise<BookingDetails> {
   const data = await parseResponse(response);
 
   if (!isBookingDetails(data)) {
-    throw new Error("Invalid data format received from API");
+    console.error("Invalid data format received from API");
   }
   return data;
 }

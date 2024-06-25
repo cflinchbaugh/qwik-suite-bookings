@@ -7,7 +7,8 @@ export const convertCurrency = ({
 }) => {
   switch (currencyCode.toUpperCase()) {
     case "USD":
-      return `$${total / 100}`;
+      const dollars = total / 100;
+      return `$${dollars.toFixed(2)}`;
     default:
       throw new Error(`Unsupported currency: ${currencyCode}`);
   }
