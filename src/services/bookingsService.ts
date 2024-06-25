@@ -1,7 +1,7 @@
 import type { dateYYYYMMDD, dateYYYYMMDDtime } from "~/utils/dates";
 
-const API_URL = "https://traverse-assignment-api.esdee.workers.dev";
 const API_KEY = import.meta.env.PUBLIC_API_KEY!;
+const API_URL = import.meta.env.PUBLIC_API_URL!;
 
 type currencyCode = "USD"; // Ultimately this should include all the supported currencies in the system, I only saw USD
 type bookingId = number; // Normally I declare number in the type object, but in this case I am prepping in case we want to swap number with UUID
