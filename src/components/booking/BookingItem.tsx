@@ -17,6 +17,38 @@ type BookingItemProps = Pick<
   | "total"
 >;
 
+type BookingStatus =
+  | "Paid, Cancelled"
+  | "Paid"
+  | "Cancelled"
+  | "Payment Required";
+
+const calculateStatus = (cancelled: boolean, paid: boolean): BookingStatus => {
+  if (paid && cancelled) {
+    return "Paid, Cancelled";
+  } else if (paid) {
+    return "Paid";
+  } else if (cancelled) {
+    return "Cancelled";
+  } else {
+    return "Payment Required";
+  }
+};
+
+const statusColorCodeMap = {
+  "Paid, Cancelled": "bg-orange-500",
+  Paid: "bg-green-500",
+  Cancelled: "bg-red-500",
+  "Payment Required": "bg-yellow-500",
+};
+
+const statusIconMap = {
+  "Paid, Cancelled": "!",
+  Paid: "✓",
+  Cancelled: "✗",
+  "Payment Required": "!",
+};
+
 export default component$<BookingItemProps>(
   ({
     cancelled,
@@ -28,13 +60,14 @@ export default component$<BookingItemProps>(
     paid,
     total,
   }) => {
+    const status = calculateStatus(cancelled, paid);
     return (
       <div class="flex flex-col border rounded p-4 bg-[#161a26] hover:bg-[#101420]">
         <div class="text-lg font-bold pb-3">{hotelName}</div>
 
         <div class="flex flex-col flex-grow justify-between">
-          <div class="flex gap-8">
-            <div class="flex flex-col flex-grow-[3]">
+          <div class="grid grid-cols-2 gap-8">
+            <div class="flex flex-col">
               <ItemInfo label="Check-in" value={checkInDate} />
               <ItemInfo label="Check-out" value={checkOutDate} />
               <ItemInfo
@@ -46,7 +79,7 @@ export default component$<BookingItemProps>(
               />
             </div>
 
-            <div class="flex flex-col flex-grow-[2]">
+            <div class="flex flex-col">
               <ItemInfo
                 label="Total"
                 value={convertCurrency({
@@ -56,23 +89,23 @@ export default component$<BookingItemProps>(
               />
 
               <div class="flex row gap-2">
-                <ItemInfo
-                  label="Status"
-                  value={
-                    paid ? "Paid" : cancelled ? "Cancelled" : "Payment Required"
-                  }
-                />
+                <ItemInfo label="Status" value={status} />
                 <div
-                  class={`rounded-full w-fit h-fit px-2 ${paid ? "bg-green-600" : cancelled ? "bg-yellow-500" : "bg-red-500"}`}
+                  class={`rounded-full w-fit h-fit px-2 ${statusColorCodeMap[status]}`}
                 >
-                  {paid ? "✓" : cancelled ? "!!" : "X"}
+                  {statusIconMap[status]}
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="text-center ">
-            <Link href={`/bookings/${id}`}>See details</Link>
+          <div class="text-center mt-2">
+            <Link
+              href={`/bookings/${id}`}
+              class="text-blue-500 hover:underline"
+            >
+              See details
+            </Link>
           </div>
         </div>
       </div>
