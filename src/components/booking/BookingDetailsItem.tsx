@@ -1,6 +1,6 @@
-import { component$ } from "@builder.io/qwik";
+import { $, component$, useSignal } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
-import type { BookingDetails } from "~/services/bookingsService";
+import { cancelBooking, type BookingDetails } from "~/services/bookingsService";
 import { convertCurrency } from "~/utils/currency";
 import { calculateNights } from "~/utils/dates";
 import ItemInfo from "../item/ItemInfo";
@@ -9,18 +9,29 @@ type BookingDetailsItemProps = BookingDetails;
 
 export default component$<BookingDetailsItemProps>(
   ({
-    cancelledAt,
+    cancelledAt: cancelledAtString,
     checkInDate,
     checkOutDate,
     currencyCode,
     customer,
     hotel,
+    id,
     occupancy,
     notes,
     paidInFullAt,
     room,
     total,
   }) => {
+    const showCancelConfirmation = useSignal(false);
+    const cancelledAt = useSignal(cancelledAtString);
+    const notesEdited = useSignal(notes === null ? undefined : notes);
+
+    const handleCancelBooking = $(async () => {
+      await cancelBooking(id, notesEdited.value ?? "");
+      cancelledAt.value = Date.now().toString();
+      showCancelConfirmation.value = false;
+    });
+
     return (
       <div class="flex flex-col border rounded gap-8 p-12 bg-[#161a26] hover:bg-[#101420]">
         <ItemInfo
@@ -43,20 +54,52 @@ export default component$<BookingDetailsItemProps>(
                 value={
                   paidInFullAt
                     ? `Paid in Full: ${paidInFullAt}`
-                    : cancelledAt
-                      ? `Cancelled: ${cancelledAt}`
+                    : cancelledAt.value
+                      ? `Cancelled: ${cancelledAt.value}`
                       : "Payment Required"
                 }
               />
               <div
-                class={`rounded-full w-fit h-fit px-2 ${paidInFullAt ? "bg-green-600" : cancelledAt ? "bg-yellow-500" : "bg-red-500"}`}
+                class={`rounded-full w-fit h-fit px-2 ${paidInFullAt ? "bg-green-600" : cancelledAt.value ? "bg-yellow-500" : "bg-red-500"}`}
               >
-                {paidInFullAt ? "✓" : cancelledAt ? "!!" : "X"}
+                {paidInFullAt ? "✓" : cancelledAt.value ? "!!" : "X"}
               </div>
             </div>
 
-            {(cancelledAt || notes) && (
+            {(cancelledAt.value || notes) && (
               <ItemInfo label="Notes" value={notes ?? "-"} />
+            )}
+
+            {!showCancelConfirmation.value && cancelledAt.value === null && (
+              <button
+                class="bg-red-500 hover:bg-red-800"
+                onClick$={() => (showCancelConfirmation.value = true)}
+              >
+                Cancel This Booking
+              </button>
+            )}
+
+            {showCancelConfirmation.value && (
+              <div class="flex flex-col gap-4">
+                <input
+                  bind:value={notesEdited}
+                  class="w-full text-red-900 p-2"
+                  type="textarea"
+                  placeholder="Reason for cancellation"
+                  value={notesEdited.value}
+                />
+
+                <button onClick$={() => (showCancelConfirmation.value = false)}>
+                  Do Not Cancel
+                </button>
+
+                <button
+                  class="bg-red-500 hover:bg-red-800"
+                  onClick$={handleCancelBooking}
+                >
+                  Confirm Cancellation
+                </button>
+              </div>
             )}
 
             <ItemInfo

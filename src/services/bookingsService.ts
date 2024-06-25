@@ -19,7 +19,7 @@ export type Booking = {
 };
 
 type emailAddress = string;
-type id = number;
+export type id = number;
 
 export type Customer = {
   bookingIds: bookingId[];
@@ -137,7 +137,21 @@ export async function fetchBookings(): Promise<Booking[]> {
   return data;
 }
 
-export async function fetchBookingById(id: string): Promise<BookingDetails> {
+export async function cancelBooking(id: id, notes: string): Promise<boolean> {
+  const response = await fetch(`${API_URL}/bookings/${id}/cancellations`, {
+    method: "PUT",
+    headers: {
+      "x-api-key": API_KEY,
+    },
+    body: JSON.stringify({
+      notes: notes,
+    }),
+  });
+
+  return response.status === 200;
+}
+
+export async function fetchBookingById(id: id): Promise<BookingDetails> {
   const response = await fetch(`${API_URL}/bookings/${id}`, {
     method: "GET",
     headers: {
