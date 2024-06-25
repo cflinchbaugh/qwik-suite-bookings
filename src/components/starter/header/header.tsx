@@ -14,7 +14,7 @@ export default component$(() => {
         </div>
         <ul>
           <li class="glowing-link">
-            <Link href="./bookings/">Bookings</Link>
+            <Link href="/bookings/">Bookings</Link>
           </li>
           <li>
             <a
