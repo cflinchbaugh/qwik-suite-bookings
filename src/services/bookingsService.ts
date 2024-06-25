@@ -54,7 +54,7 @@ export type BookingDetails = {
   updatedAt: DateYYYYMMDDTime;
 };
 
-function isBookingArray(data: any[]): data is Booking[] {
+const isBookingArray = (data: any[]): data is Booking[] => {
   return (
     Array.isArray(data) &&
     data.every(
@@ -70,7 +70,7 @@ function isBookingArray(data: any[]): data is Booking[] {
         typeof item.total === "number"
     )
   );
-}
+};
 
 const isCustomer = (customer: any): customer is Customer =>
   typeof customer === "object" &&
@@ -93,7 +93,7 @@ const isRoom = (room: any): room is Room =>
   typeof room.maxOccupancy === "number" &&
   typeof room.name === "string";
 
-function isBookingDetails(data: any): data is BookingDetails {
+const isBookingDetails = (data: any): data is BookingDetails => {
   return (
     data !== null &&
     typeof data === "object" &&
@@ -112,11 +112,11 @@ function isBookingDetails(data: any): data is BookingDetails {
     typeof data.total === "number" &&
     typeof data.updatedAt === "string"
   );
-}
+};
 
 async function parseResponse(response: Response): Promise<any> {
   if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
+    console.error(`Error: ${response.statusText}`);
   }
   return response.json();
 }
@@ -132,7 +132,7 @@ export async function fetchBookings(): Promise<Booking[]> {
   const data = await parseResponse(response);
 
   if (!isBookingArray(data)) {
-    throw new Error("Invalid data format received from API");
+    console.error("Invalid data format received from API");
   }
   return data;
 }
@@ -148,7 +148,7 @@ export async function fetchBookingById(id: string): Promise<BookingDetails> {
   const data = await parseResponse(response);
 
   if (!isBookingDetails(data)) {
-    throw new Error("Invalid data format received from API");
+    console.error("Invalid data format received from API");
   }
   return data;
 }
